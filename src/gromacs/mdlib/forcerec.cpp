@@ -2424,6 +2424,12 @@ void init_forcerec(FILE              *fp,
         fr->adress_site           = ir->adress->site;
         fr->adress_ex_forcecap    = ir->adress->ex_forcecap;
         fr->adress_do_hybridpairs = ir->adress->do_hybridpairs;
+        fr->adress_do_sc          = ir->adress->do_sc;
+        fr->adress_sc_alpha       = ir->adress->sc_alpha;
+        fr->adress_sc_default_sigma6 = ir->adress->sc_default_sigma6;
+        fr->adress_sc_r_power     = ir->adress->sc_r_power;
+        fr->adress_sc_power       = ir->adress->sc_power;
+        fr->adress_sc_cutoff      = ir->adress->sc_cutoff;
 
 
         snew(fr->adress_group_explicit, ir->adress->n_energy_grps);

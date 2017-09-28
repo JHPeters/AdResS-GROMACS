@@ -454,9 +454,15 @@ typedef struct {
     int             n_adress_tf_grps;
     int           * adress_tf_table_index;
     int            *adress_group_explicit;
+    gmx_bool        adress_do_sc;
+    real            adress_sc_alpha;
+    real            adress_sc_default_sigma6;
+    real            adress_sc_r_power;
+    real            adress_sc_power;
     t_forcetable *  atf_tabs;
     real            adress_ex_forcecap;
     gmx_bool        adress_do_hybridpairs;
+    real            adress_sc_cutoff;
 
     /* User determined parameters, copied from the inputrec */
     int  userint1;

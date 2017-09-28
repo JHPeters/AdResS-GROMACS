@@ -658,6 +658,11 @@ static void cmp_adress(FILE *fp, t_adress *ad1, t_adress *ad2,
     cmp_int(fp, "ir->adress->site", -1, ad1->site, ad2->site);
     cmp_rvec(fp, "ir->adress->refs", -1, ad1->refs, ad2->refs, ftol, abstol);
     cmp_real(fp, "ir->adress->ex_forcecap", -1, ad1->ex_forcecap, ad2->ex_forcecap, ftol, abstol);
+    cmp_real(fp, "ir->adress->sc_alpha", -1, ad1->sc_alpha, ad2->sc_alpha, ftol, abstol);
+    cmp_real(fp, "ir->adress->sc_default_sigma6", -1, ad1->sc_default_sigma6, ad2->sc_default_sigma6, ftol, abstol);
+    cmp_real(fp, "ir->adress->sc_r_power", -1, ad1->sc_r_power, ad2->sc_r_power, ftol, abstol);
+    cmp_real(fp, "ir->adress->sc_power", -1, ad1->sc_power, ad2->sc_power, ftol, abstol);
+    cmp_real(fp, "ir->adress->sc_cutoff", -1, ad1->sc_cutoff, ad2->sc_cutoff, ftol, abstol);
 }
 
 static void cmp_pull(FILE *fp)

@@ -1521,6 +1521,12 @@ static void do_inputrec(t_fileio *fio, t_inputrec *ir, gmx_bool bRead,
             gmx_fio_do_real(fio, ir->adress->ex_forcecap);
             gmx_fio_do_int(fio, ir->adress->n_energy_grps);
             gmx_fio_do_int(fio, ir->adress->do_hybridpairs);
+            gmx_fio_do_int(fio, ir->adress->do_sc);
+            gmx_fio_do_real(fio, ir->adress->sc_alpha);
+            gmx_fio_do_real(fio, ir->adress->sc_default_sigma6);
+            gmx_fio_do_real(fio, ir->adress->sc_r_power);
+            gmx_fio_do_real(fio, ir->adress->sc_power);
+            gmx_fio_do_real(fio, ir->adress->sc_cutoff);
 
             if (bRead)
             {

@@ -298,6 +298,12 @@ typedef struct {
     int      n_tf_grps;
     int     *group_explicit;
     int      n_energy_grps;
+    gmx_bool do_sc;          /* use soft core potentials in the hybrid region */
+    real     sc_alpha;		 /* alpha-parameters for soft core potential */
+    real     sc_default_sigma6; /* default-value for sigma6, if c6 = 0.0*/
+    real     sc_r_power;     /* power of r to use for soft core potential */
+    real     sc_power;       /* to which power to use the weight in "soft coring" */
+    real     sc_cutoff;
 } t_adress;
 
 typedef struct {

@@ -72,6 +72,12 @@ void read_adressparams(int *ninp_p, t_inpfile **inp_p, t_adress *adress, warninp
     STYPE ("adress_tf_grp_names",        adress_tf_grp_names,     NULL);
     STYPE ("adress_cg_grp_names",        adress_cg_grp_names,     NULL);
     EETYPE("adress_do_hybridpairs",      adress->do_hybridpairs, yesno_names);
+    EETYPE("adress_do_sc",               adress->do_sc, yesno_names);
+    RTYPE("adress_sc_alpha",             adress->sc_alpha,     0);
+    RTYPE("adress_sc_default_sigma6",    adress->sc_default_sigma6, 6.8944259480e-09);
+    RTYPE("adress_sc_r_power",           adress->sc_r_power,   6);
+    RTYPE("adress_sc_power",             adress->sc_power,     0);
+    RTYPE("adress_sc_cutoff",            adress->sc_cutoff,  0.5);
 
     nadress_refs = str_nelem(adress_refs, MAXPTR, ptr1);
 

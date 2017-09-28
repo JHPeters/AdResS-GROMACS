@@ -107,10 +107,30 @@ gmx_nb_generic_adress_kernel(t_nblist *                nlist,
     real          force_cap;
     gmx_bool      bCG;
     int           egp_nr;
+    // soft core variables
+    gmx_bool      do_sc;
+    real          sc_alpha;
+    real          sc_r_power;  /*actually, this is ignored at the moment and assumed to be 6.0 */
+    real          sc_power;
+    real          sc_default_sigma6;
+    real          rsc,rsc2;
+    real          sigma6;
+    real          rp;
+    real          lambda;
+    real          lambdap;
 
     wf                  = mdatoms->wf;
 
     force_cap           = fr->adress_ex_forcecap;
+
+    do_sc               = fr->adress_do_sc;
+    sc_alpha            = fr->adress_sc_alpha;
+    sc_r_power          = fr->adress_sc_r_power;
+    sc_power            = fr->adress_sc_power;
+    sc_default_sigma6   = fr->adress_sc_default_sigma6;
+
+    rsc                 = fr->adress_sc_cutoff;
+    rsc2                = rsc*rsc;
 
     x                   = xx[0];
     f                   = ff[0];
@@ -279,8 +299,6 @@ gmx_nb_generic_adress_kernel(t_nblist *                nlist,
             dy               = iy - jy;
             dz               = iz - jz;
             rsq              = dx*dx+dy*dy+dz*dz;
-            rinv             = gmx_invsqrt(rsq);
-            rinvsq           = rinv*rinv;
             felec            = 0;
             fvdw             = 0;
             velec            = 0;
@@ -290,6 +308,51 @@ gmx_nb_generic_adress_kernel(t_nblist *                nlist,
             {
                 continue;
             }
+
+            /*
+             * scale distance according to soft-core if
+             *
+             *   - soft-core option is selected
+             *   - we are not considering coarse-grain particles
+             *   - we are actually interpolating forces
+             *   - distance is smaller than the soft-core cutoff
+             */
+            if (do_sc && !bCG && (weight_product > ALMOST_ZERO) && (weight_product < ALMOST_ONE) && (rsq < rsc2))
+            {
+
+            	tj               = nti+nvdwparam*type[jnr];
+
+            	c6               = vdwparam[tj];
+                c12              = vdwparam[tj+1];
+
+                if ((c6 > ALMOST_ZERO))
+                {
+                	sigma6=c12/c6;
+                }
+                else
+                {
+                	sigma6 = sc_default_sigma6;
+                }
+
+                lambda = 1.0-weight_product;
+                if (sc_power == 1)
+                {
+                	lambdap = lambda;
+                }
+                else if (sc_power == 2)
+                {
+                	lambdap = lambda * lambda;
+                }
+                else
+                {
+                	lambdap = pow(lambda,sc_power);
+                }
+
+               	rsq = pow((sc_alpha*sigma6*lambdap+rsq*rsq*rsq),1/3.0);
+            }
+
+            rinv             = gmx_invsqrt(rsq);
+            rinvsq           = rinv*rinv;
 
             if (ielec == GMX_NBKERNEL_ELEC_CUBICSPLINETABLE || ivdw == GMX_NBKERNEL_VDW_CUBICSPLINETABLE)
             {

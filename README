@@ -1,5 +1,8 @@
+This is a fork based on the 5.1.4 release of GROMACS, adding some features
+to the adaptive resolution simulation (AdResS) method.
 
-               Welcome to the official version of GROMACS!
+From the original GROMACS 5.1.4 README:
+
 
 If you are familiar with Unix, it should be fairly trivial to compile and
 install GROMACS. GROMACS uses only the CMake build sytem, and our
